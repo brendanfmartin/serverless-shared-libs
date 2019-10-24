@@ -1,0 +1,42 @@
+service: billing-api
+frameworkVersion: ">=1.1.0 <2.0.0"
+
+plugins:
+  - serverless-offline
+
+provider:
+  name: aws
+  runtime: nodejs10.x
+  stage: ${opt:stage, 'dev'}
+  profile: replace
+  region: us-east-1
+
+custom:
+  stage: ${self:provider.stage}
+  region: ${self:provider.region}
+  cors:
+    origin: '*' # <-- Specify allowed origin
+    headers: # <-- Specify allowed headers
+      - Content-Type
+      - X-Amz-Date
+      - Authorization
+      - X-Api-Key
+      - X-Amz-Security-Token
+      - X-Amz-User-Agent
+
+functions:
+  version:
+    iamRoleStatements:
+      lambdaPolicyXRay:
+        Effect: Allow
+        Action:
+          - xray:PutTraceSegments
+          - xray:PutTelemetryRecords
+        Resource: "*"
+    handler: handler.version
+    events:
+      - http:
+          path: version
+          method: get
+          private: false
+          cors: ${self:custom.cors}

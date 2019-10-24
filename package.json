@@ -1,0 +1,16 @@
+{
+  "name": "shared-libs",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "serverless-bundle test"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "serverless": "^1.55.1",
+    "serverless-bundle": "^1.2.5",
+    "serverless-offline": "^5.12.0"
+  }
+}
